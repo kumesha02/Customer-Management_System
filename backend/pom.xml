@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 
+    🎓 CONCEPT: Maven Coordinates (GAV)
+    - groupId: Your organization (like a package name)
+    - artifactId: Project name
+    - version: Current version of your app
+    These uniquely identify your project in the Maven ecosystem
+    -->
+    <groupId>com.cms</groupId>
+    <artifactId>customer-management</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>Customer Management System</name>
+    <description>Full-stack customer management with bulk operations</description>
+
+    <!-- 
+    🎓 CONCEPT: Parent POM
+    Spring Boot Starter Parent provides:
+    - Default versions for all Spring dependencies (no version conflicts!)
+    - Sensible default configurations
+    - Plugin configurations
+    We're using 2.7.18 which is the latest compatible with Java 8
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <!-- Java 8 as required -->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- 
+        🎓 CONCEPT: Spring Boot Starters
+        Starters are curated sets of dependencies. Instead of adding 10 libraries,
+        you add one starter that includes everything you need!
+        -->
+
+        <!-- Spring Web: REST API support, embedded Tomcat server, Jackson for JSON -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 
+        Spring Data JPA: Database persistence layer
+        - JPA (Java Persistence API): Specification for ORM
+        - Hibernate: The actual implementation
+        - This lets us work with objects instead of SQL
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- MariaDB Driver: JDBC driver to connect to MariaDB -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- 
+        🎓 CONCEPT: Lombok
+        Reduces boilerplate code. Instead of writing getters/setters/constructors,
+        use annotations like @Data, @Getter, @Setter
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 
+        Apache POI: Excel file processing
+        poi-ooxml: For .xlsx files (Office Open XML)
+        We'll use the streaming API for large files
+        -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
+        <!-- 
+        ModelMapper: DTO ↔ Entity conversion
+        Automatically maps fields between objects
+        -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+        <!-- 
+        Bean Validation: For @NotNull, @Size, @Pattern annotations
+        Validates data before it reaches the database
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- 
+        🎓 CONCEPT: Test Dependencies
+        Spring Boot Test includes:
+        - JUnit 5: Testing framework
+        - Mockito: For mocking dependencies
+        - AssertJ: Fluent assertions
+        - MockMvc: For testing REST APIs
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- H2 Database: In-memory database for testing -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Spring Boot Maven Plugin: Creates executable JAR -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Exclude Lombok from final JAR (compile-time only) -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!-- JaCoCo: Code coverage reports for tests -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
