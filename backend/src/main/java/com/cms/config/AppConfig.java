@@ -67,78 +67,80 @@ public class AppConfig {
          * ModelMapper automatically maps fields between objects.
          * 
          * Usage in services:
-         *   @Autowired
-         *   private ModelMapper modelMapper;
-         *   
-         *   CustomerDTO dto = modelMapper.map(customer, CustomerDTO.class);
          * 
-         * HOW IT WORKS:
-         * - Uses reflection to find matching field names
-         * - Copies values from source to destination
-         * - Handles nested objects
-         * - Supports custom mappings for complex scenarios
+         * @Autowired
+         *            private ModelMapper modelMapper;
          * 
-         * EXAMPLE:
+         *            CustomerDTO dto = modelMapper.map(customer, CustomerDTO.class);
          * 
-         * Customer (Entity):
-         *   - id: 1
-         *   - name: "John"
-         *   - dateOfBirth: 1990-01-01
+         *            HOW IT WORKS:
+         *            - Uses reflection to find matching field names
+         *            - Copies values from source to destination
+         *            - Handles nested objects
+         *            - Supports custom mappings for complex scenarios
          * 
-         * modelMapper.map(customer, CustomerDTO.class)
+         *            EXAMPLE:
          * 
-         * CustomerDTO:
-         *   - id: 1
-         *   - name: "John"
-         *   - dateOfBirth: 1990-01-01
+         *            Customer (Entity):
+         *            - id: 1
+         *            - name: "John"
+         *            - dateOfBirth: 1990-01-01
          * 
-         * All fields copied automatically! 🎉
+         *            modelMapper.map(customer, CustomerDTO.class)
          * 
-         * WHY USE MODELMAPPER?
-         * --------------------
-         * Without it:
-         *   CustomerDTO dto = new CustomerDTO();
-         *   dto.setId(entity.getId());
-         *   dto.setName(entity.getName());
-         *   dto.setDateOfBirth(entity.getDateOfBirth());
-         *   dto.setNicNumber(entity.getNicNumber());
-         *   // ... 20+ lines for complex objects
+         *            CustomerDTO:
+         *            - id: 1
+         *            - name: "John"
+         *            - dateOfBirth: 1990-01-01
          * 
-         * With ModelMapper:
-         *   CustomerDTO dto = modelMapper.map(entity, CustomerDTO.class);
-         *   // Done! 1 line!
+         *            All fields copied automatically! 🎉
          * 
-         * LIMITATIONS:
-         * ------------
-         * - Doesn't work well with complex nested structures
-         * - Sometimes requires custom configuration
-         * - Can be slow for large datasets (reflection overhead)
+         *            WHY USE MODELMAPPER?
+         *            --------------------
+         *            Without it:
+         *            CustomerDTO dto = new CustomerDTO();
+         *            dto.setId(entity.getId());
+         *            dto.setName(entity.getName());
+         *            dto.setDateOfBirth(entity.getDateOfBirth());
+         *            dto.setNicNumber(entity.getNicNumber());
+         *            // ... 20+ lines for complex objects
          * 
-         * For simple DTOs, manual mapping might be clearer.
-         * For complex DTOs, ModelMapper saves time.
+         *            With ModelMapper:
+         *            CustomerDTO dto = modelMapper.map(entity, CustomerDTO.class);
+         *            // Done! 1 line!
          * 
-         * In our project, we use MIXED APPROACH:
-         * - ModelMapper for simple conversions
-         * - Manual mapping for complex nested objects (Customer → CustomerDTO)
+         *            LIMITATIONS:
+         *            ------------
+         *            - Doesn't work well with complex nested structures
+         *            - Sometimes requires custom configuration
+         *            - Can be slow for large datasets (reflection overhead)
+         * 
+         *            For simple DTOs, manual mapping might be clearer.
+         *            For complex DTOs, ModelMapper saves time.
+         * 
+         *            In our project, we use MIXED APPROACH:
+         *            - ModelMapper for simple conversions
+         *            - Manual mapping for complex nested objects (Customer →
+         *            CustomerDTO)
          */
-        ModelMapper modelMapper = new Model Mapper();
-        
+        ModelMapper modelMapper = new ModelMapper();
+
         /**
          * 🎓 MODELMAPPER CONFIGURATION:
          * 
          * These settings control how ModelMapper behaves:
          */
-        
+
         // STRICT matching: Field names must match exactly
         // Prevents accidental mappings between unrelated fields
         // modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        
+
         // SKIP NULL values: Don't overwrite destination with null values
         // Useful for partial updates
         // modelMapper.getConfiguration().setSkipNullEnabled(true);
-        
+
         // For learning, we'll use default settings (they work well!)
-        
+
         return modelMapper;
     }
 
